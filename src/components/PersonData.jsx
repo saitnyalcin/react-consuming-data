@@ -1,24 +1,40 @@
-import React, { useEffect, useState } from 'react';
 import axios from 'axios';
+import React, { useEffect, useState } from 'react';
 
 export default function PersonData() {
   const [data, setData] = useState([]);
+  const [loading, setLoading] = useState(true);
 
-  useEffect(() => {
-    axios
+  const userCallApi = async () => {
+    await axios
       .get('https://jsonplaceholder.typicode.com/users')
       .then(result => setData(result.data));
+  };
+
+  useEffect(() => {
+    setTimeout(() => {
+      try {
+        userCallApi();
+        setLoading(false);
+      } catch (error) {
+        console.log(error);
+      }
+    }, 2000);
   }, []);
 
   return (
     <div>
-      <ul style={{ listStyle: 'none' }}>
-        {data.map(item => (
-          <li key={item.username}>
-            {item.username}: {item.name}
-          </li>
-        ))}
-      </ul>
+      {loading ? (
+        <h1>Loading..</h1>
+      ) : (
+        <ul style={{ listStyle: 'none' }}>
+          {data.map(item => (
+            <li key={item.username}>
+              {item.username}: {item.name}
+            </li>
+          ))}
+        </ul>
+      )}
     </div>
   );
 }
