@@ -2,6 +2,7 @@ import axios from 'axios';
 import React, { useEffect, useState } from 'react';
 
 export default function PersonData() {
+  // init the state variables to set the data that fetched from api
   const [data, setData] = useState([]);
   const [loading, setLoading] = useState(true);
 
