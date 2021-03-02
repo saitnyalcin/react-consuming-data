@@ -1,5 +1,4 @@
-import axios from 'axios';
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState } from "react";
 
 export default function PersonData() {
   // init the state variables to set the data that fetched from api
@@ -7,9 +6,15 @@ export default function PersonData() {
   const [loading, setLoading] = useState(true);
 
   const userCallApi = async () => {
-    await axios
-      .get('https://jsonplaceholder.typicode.com/users')
-      .then(result => setData(result.data));
+    await fetch("https://jsonplaceholder.typicode.com/users")
+      .then((response) => response.json())
+      .then((data) => setData(data))
+      .then((result) => {
+        console.log("Success:", result);
+      })
+      .catch((error) => {
+        console.error("Error:", error);
+      });
   };
 
   useEffect(() => {
@@ -28,8 +33,8 @@ export default function PersonData() {
       {loading ? (
         <h1>Loading..</h1>
       ) : (
-        <ul style={{ listStyle: 'none' }}>
-          {data.map(item => (
+        <ul style={{ listStyle: "none" }}>
+          {data.map((item) => (
             <li key={item.username}>
               {item.username}: {item.name}
             </li>
